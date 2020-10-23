@@ -1,5 +1,5 @@
 <template>
-    <button :class="$style.button" @click="click">
+    <button :type="type" :class="$style.button" @click="click">
         <slot></slot>
     </button>
 </template>
@@ -8,8 +8,11 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class Button extends Vue {
-    @Prop()
+    @Prop({ default: () => {}, required: false })
     public readonly click!: () => void;
+
+    @Prop({ default: 'button' })
+    public readonly type!: string;
 }
 </script>
 <style module>

@@ -1,4 +1,3 @@
-// @ts-ignore
 import vehicles from './vehicles.json';
 import { VehicleType } from '~/types';
 

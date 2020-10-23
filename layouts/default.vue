@@ -1,11 +1,11 @@
 <template>
-    <div class="app">
+    <div :class="[$style.app, nightMode ? $style['app-night'] : $style['app-day']]">
         <Header />
         <Nuxt />
     </div>
 </template>
 
-<style>
+<style module lang="scss">
 html {
     font-family: 'Codec Pro', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     font-size: 16px;
@@ -15,11 +15,27 @@ html {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     box-sizing: border-box;
-    color: #677b8f;
 }
 .app {
-    margin: 48px 64px;
+    padding: 48px 64px;
+
+    &-night {
+        color: #99a7b5;
+        background: #012345;
+    }
+
+    &-day {
+        color: #677b8f;
+        background: #ffffff;
+    }
 }
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+    .app {
+        padding: 20px 0;
+    }
+}
+
 *,
 *::before,
 *::after {
@@ -29,9 +45,16 @@ html {
 </style>
 <script>
 import { Vue, Component } from 'vue-property-decorator';
+import { PortalTarget } from 'portal-vue';
 import NavBar from '../components/Header';
+import AddVehicle from '~/forms/AddVehicle.vue';
+
 @Component({
-    components: { NavBar },
+    components: { NavBar, AddVehicle, PortalTarget },
 })
-export default class Default extends Vue {}
+export default class Default extends Vue {
+    get nightMode() {
+        return this.$accessor.styleModule.nightMode;
+    }
+}
 </script>

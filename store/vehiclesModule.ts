@@ -1,4 +1,3 @@
-import { MutationTree, GetterTree, ActionTree } from 'vuex/types/index';
 import { getterTree, actionTree, mutationTree } from 'typed-vuex';
 import { getVehicles } from '~/request';
 import { VehicleType } from '~/types';
@@ -8,26 +7,6 @@ export enum Status {
     Success = 'SUCCESS',
     Error = 'ERROR',
 }
-// type UnionType<O, Types extends O[keyof O]> = {
-//     [K in keyof O]-?: O[K] extends Types ? K : never;
-// }[keyof O]
-//
-// interface Itest {
-//     a: number;
-//     b(arg: any): void;
-// }
-//
-// type S = [number, string]
-// const t: Parameters<VehiclesModule[UnionType<VehiclesModule, (arg: any) => any>]> = 'a';
-//
-// function callMutation<
-//     T extends any,
-//     MethodName extends UnionType<T, (arg: any) => any> = UnionType<T, (arg: any) => any>,
-//     Method extends T[MethodName] = T[MethodName],
-//     Params extends Parameters<Method> = Parameters<Method>
-// >(context: ActionContext<any, any>, mutationName: MethodName, arg: Params) {
-//     context.commit(mutationName as string, arg);
-// }
 
 type InitState = {
     vehicles: VehicleType[];
@@ -56,6 +35,9 @@ export const mutations = mutationTree(state, {
     setError: (state, error: string) => {
         state.error = error;
     },
+    addVehicle: (state, payload: VehicleType) => {
+        state.vehicles.push(payload);
+    },
 });
 
 export const getters = getterTree(state, {
@@ -83,7 +65,7 @@ export const actions = actionTree(
                 commit('toggleFetching', Status.Loading);
                 const vehicles = await getVehicles();
                 commit('toggleFetching', Status.Success);
-                commit('setVehicles', vehicles);
+                commit('setVehicles', [...vehicles]);
                 commit('setSelectedType', getters.typesVehicles[0]);
                 commit('setError', '');
             } catch ({ error }) {

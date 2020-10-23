@@ -2,6 +2,7 @@ import { getAccessorType } from 'typed-vuex';
 
 // Import all your submodules
 import * as vehiclesModule from '~/store/vehiclesModule';
+import * as styleModule from '~/store/styleModule';
 
 // Keep your existing vanilla Vuex code for state, getters, mutations, actions, plugins, etc.
 // ...
@@ -10,5 +11,6 @@ import * as vehiclesModule from '~/store/vehiclesModule';
 export const accessorType = getAccessorType({
     modules: {
         vehiclesModule,
+        styleModule,
     },
 });
